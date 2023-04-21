@@ -5,7 +5,7 @@ const Header = () => {
     <>
       <div className="navbar bg-blue-200 rounded-xl">
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <a className="btn btn-ghost normal-case text-xl">Auth Master</a>
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
