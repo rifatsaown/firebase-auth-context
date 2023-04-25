@@ -1,18 +1,37 @@
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../provider/UserProvider";
 
 const Login = () => {
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        console.log(email, password);
-    };
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  const { loginUser } = useContext(UserContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    loginUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        setError('');
+        setSuccess('Login Successful')
+      })
+      .catch((error) => {
+        setError(error.message);
+        setSuccess('');
+      });
+  };
   return (
     <>
       <div className="hero min-h-[90.9vh] bg-base-200">
-      <div className="hero-content flex-col">
-            <h1 className="text-3xl font-bold pb-4">Please Login</h1>
-          <form onSubmit={handleSubmit} className="card w-96 shadow-2xl bg-base-100">
+        <div className="hero-content flex-col">
+          <h1 className="text-3xl font-bold pb-4">Please Login</h1>
+          <form
+            onSubmit={handleSubmit}
+            className="card w-96 shadow-2xl bg-base-100"
+          >
             <div className="card-body">
               <div className="form-control">
                 <label className="label">
@@ -42,13 +61,16 @@ const Login = () => {
                     Forgot password?
                   </a>
                 </label>
+                <p>{success}</p>
+                <p>{error}</p>
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Login</button>
               </div>
-              <Link className="text-center" to='/register'>New in Town?</Link>
+              <Link className="text-center" to="/register">
+                New in Town?
+              </Link>
             </div>
-            
           </form>
         </div>
       </div>
