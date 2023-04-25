@@ -25,17 +25,21 @@ const Header = () => {
             <li>
               <NavLink to="/">Home</NavLink>
             </li>
-            {user ? (
+            {user ? (<>
               <li>
-                {" "}
-                <span>{user.email}</span>{" "}
+                <NavLink to="/profile">Profile</NavLink>
+              </li>
+              <li>
+                <span>{user.email}</span>
                 <button
                   onClick={handleSignout}
                   className="btn btn-primary btn-outline"
                 >
                   Sign Out
-                </button>{" "}
+                </button>
               </li>
+              
+              </>
             ) : (
               <>
                 <li>

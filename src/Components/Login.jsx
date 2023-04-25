@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../provider/UserProvider";
 
 const Login = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const passRef = useRef(null);
 
   const { loginUser } = useContext(UserContext);
   const handleSubmit = (e) => {
@@ -21,6 +22,7 @@ const Login = () => {
       .catch((error) => {
         setError(error.message);
         setSuccess('');
+        passRef.current.value = '';
       });
   };
   return (
@@ -53,6 +55,7 @@ const Login = () => {
                   required
                   type="password"
                   name="password"
+                  ref = {passRef}
                   placeholder="Enter Password"
                   className="input input-bordered"
                 />
