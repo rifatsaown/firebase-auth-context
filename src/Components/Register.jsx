@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../provider/UserProvider";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const [error, setError] = useState(null);
@@ -12,12 +13,14 @@ const Register = () => {
     // const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const name = e.target.name.value;
 
     createUser(email, password)
       .then((result) => {
         console.log(result.user);
         setError('');
         setSuccess('Register Successful')
+        addName(result.user ,name)
       })
       .catch((error) => {
         console.log(error.message);
@@ -25,6 +28,15 @@ const Register = () => {
         setSuccess('');
       });
   };
+
+  const addName = (user ,name) => {
+    updateProfile(user ,{displayName: name}).then(() => {
+      console.log('name added');
+    }).catch((error) => {
+      console.log(error.message);
+    });
+  }
+
   return (
     <>
       <div className="hero min-h-[90.9vh] bg-base-200">
