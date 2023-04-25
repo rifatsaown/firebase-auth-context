@@ -7,24 +7,41 @@ const Login = () => {
   const [success, setSuccess] = useState(null);
   const passRef = useRef(null);
 
-  const { loginUser } = useContext(UserContext);
+  const { loginUser, googleLogin } = useContext(UserContext);
+
+  // login with google
+  const handleGoogleLogin = () => {
+    googleLogin()
+      .then((result) => {
+        console.log(result.user);
+        setError("");
+        setSuccess("Login Successful");
+      })
+      .catch((error) => {
+        setError(error.message);
+        setSuccess("");
+      });
+  }
+
+  // login with email and password
   const handleSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
     loginUser(email, password)
-      .then((result) => {
-        console.log(result.user);
-        setError('');
-        setSuccess('Login Successful')
+      .then(() => {
+        setError("");
+        setSuccess("Login Successful");
       })
       .catch((error) => {
         setError(error.message);
-        setSuccess('');
-        passRef.current.value = '';
+        setSuccess("");
+        passRef.current.value = "";
       });
   };
+
+
   return (
     <>
       <div className="hero min-h-[90.9vh] bg-base-200">
@@ -55,7 +72,7 @@ const Login = () => {
                   required
                   type="password"
                   name="password"
-                  ref = {passRef}
+                  ref={passRef}
                   placeholder="Enter Password"
                   className="input input-bordered"
                 />
@@ -69,6 +86,11 @@ const Login = () => {
               </div>
               <div className="form-control mt-6">
                 <button className="btn btn-primary">Login</button>
+              </div>
+              <div className="form-control">
+                <button type="button" className="btn btn-primary btn-outline" onClick={handleGoogleLogin}>
+                  Login with Google
+                </button>
               </div>
               <Link className="text-center" to="/register">
                 New in Town?
